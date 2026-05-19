@@ -839,12 +839,10 @@ window.deleteItem = async function(id){
   state.items = state.items.filter(x => x.id !== id);
   closeDetails();
   await deleteDoc(doc(collection(db, "posters"), id));
-  render();
 };
 
 window.saveItem = async function(item) {
   await setDoc(doc(collection(db, "posters"), item.id), item);
-  render()
 };
 
 // --- Listener en tiempo real ---
@@ -852,7 +850,6 @@ onSnapshot(collection(db, "posters"), (snapshot) => {
   const newItems = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
   newItems.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
   state.items = newItems;
-  render();
 
   // Refresca la vista solo si no estás escribiendo en un input
   if (!document.activeElement || document.activeElement.tagName !== 'INPUT') {
